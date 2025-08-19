@@ -1,0 +1,51 @@
+<%- include('partials/header.ejs', { pageTitle: pageTitle }) %>
+
+<div class="container">
+    <h1 class="my-4"><%= pageTitle %></h1>
+    <%
+        let formAction = '/books';
+        let formMethod = 'POST';
+        if (book) {
+            formAction += '/' + book.id;
+            formMethod = 'PUT';
+        }
+    %>
+    <form action="<%= formAction %>" method="POST">
+        <% if (book) { %>
+            <input type="hidden" name="_method" value="PUT">
+        <% } %>
+        <div class="mb-3">
+            <label for="title" class="form-label">Judul</label>
+            <input type="text" class="form-control" id="title" name="title" value="<%= book ? book.title : '' %>" required>
+        </div>
+        <div class="mb-3">
+            <label for="author" class="form-label">Penulis</label>
+            <input type="text" class="form-control" id="author" name="author" value="<%= book ? book.author : '' %>" required>
+        </div>
+        <div class="mb-3">
+            <label for="year" class="form-label">Tahun</label>
+            <input type="number" class="form-control" id="year" name="year" value="<%= book ? book.year : '' %>" required>
+        </div>
+        <div class="mb-3">
+            <label for="isbn" class="form-label">ISBN</label>
+            <input type="text" class="form-control" id="isbn" name="isbn" value="<%= book ? book.isbn : '' %>">
+        </div>
+        <div class="mb-3">
+            <label for="category" class="form-label">Kategori</label>
+            <input type="text" class="form-control" id="category" name="category" value="<%= book ? book.category : '' %>" required>
+        </div>
+        <div class="mb-3">
+            <label for="status" class="form-label">Status</label>
+            <select class="form-select" id="status" name="status" required>
+                <option value="available" <%= book && book.status === 'available' ? 'selected' : '' %>>Tersedia</option>
+                <option value="borrowed" <%= book && book.status === 'borrowed' ? 'selected' : '' %>>Dipinjam</option>
+                <option value="maintenance" <%= book && book.status === 'maintenance' ? 'selected' : '' %>>Perawatan</option>
+            </select>
+        </div>
+        
+        <button type="submit" class="btn btn-primary">Simpan</button>
+        <a href="/" class="btn btn-secondary">Batal</a>
+    </form>
+</div>
+
+<%- include('partials/footer.ejs') %>
